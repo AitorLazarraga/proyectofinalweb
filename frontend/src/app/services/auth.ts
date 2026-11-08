@@ -3,6 +3,7 @@ import { inject, Service } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { LoginRequest, LoginResponse, RegisterRequest, User } from '../models/user';
 import { tap } from 'rxjs';
+import { Car } from '../models/car';
 
 
 @Service()
@@ -25,19 +26,15 @@ export class Auth {
     }
 
     get_token(){
-        const token = localStorage.getItem('token');
-        if(token == null){
-            return null
-        }
-        const sub = this.get_user_id(token);
-        return [token,sub]
+        return localStorage.getItem('token');
     }
 
     get_username(){
         return localStorage.getItem('user');
     }
 
-    get_user_id(token: string){
+    get_user_id(){
+        const token = localStorage.getItem('token')!;
         const payloadBase64 = token.split('.')[1];
         const base64 = payloadBase64.replace(/-/g, '+').replace(/_/g, '/');
         const payload = JSON.parse(atob(base64));

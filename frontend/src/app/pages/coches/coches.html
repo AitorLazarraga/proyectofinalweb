@@ -1,1 +1,61 @@
 <app-navbar />
+
+<div class="container py-4">
+    <h1 class="h3 mb-4">Coches Disponibles</h1>
+
+    @if(cargando()){
+        <div class="text-center py-5">
+            <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+    @else if(mensaje_error()){
+        <div class="alert alert-danger" role="alert">
+            {{ mensaje_error() }}
+        </div>
+    }
+    @else{
+        <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-light">
+            <tr>
+                <th>Imagen</th>
+                <th>Modelo</th>
+                <th>Descripción</th>
+                <th class="text-end">Km</th>
+                <th class="text-end">Precio</th>
+                <th>Categoría</th>
+                <th>Estado</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @for(coche of coches(); track coche._id){
+                <tr>
+                    <td>
+                        <img [src]="coche.image" [alt]="coche.name" class="car-thumb rounded" (error)="imagenPorDefecto($event)">
+                    </td>
+                    <td class="fw-semibold">{{coche.name}}</td>
+                    <td  class="small text-muted">{{coche.description}}</td>
+                    <td class="text-end">{{coche.km  | number}}</td>
+                    <td class="text-end text-nowrap">{{coche.price | currency:'EUR'}}</td>
+                    <td>{{coche.category}}</td>
+                    <td><span class="badge"
+                        [class.text-bg-success]="coche.state === 'Disponible'" [class.text-bg-secondary]="coche.state === 'Comprado'">{{coche.state}}</span></td>
+                    <td>@if(coche.state === 'Disponible'){
+                        <button type="button" class="btn btn-sm btn-primary" title="Añadir Carrito" aria-label="Añadir al Carrito"><i class="bi bi-cart-plus"></i></button>
+                    }
+                    </td>
+                </tr>
+            }
+            @empty {
+                <tr>
+                    <td colspan="8" class="text-center text-muted py-4">No hay coches disponibles</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        </div>
+    }
+</div>
