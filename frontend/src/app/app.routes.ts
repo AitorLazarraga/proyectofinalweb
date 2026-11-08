@@ -7,16 +7,18 @@ import { Editar } from './pages/editar/editar'
 import { Estadisticas } from './pages/estadisticas/estadisticas'
 import { MisCoches } from './pages/mis-coches/mis-coches'
 import { Register } from './pages/register/register'
+import { guestGuard } from './guards/guests-guard';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
-    {path: 'login', component: Login},
-    {path: 'agregar', component: Agregar},
-    {path: 'carrito', component: Carrito},
-    {path: 'coches', component: Coches},
-    {path: 'editar', component: Editar},
-    {path: 'estadisticas', component: Estadisticas},
-    {path: 'mis-coches', component: MisCoches},
-    {path: 'register', component: Register},
-    {path: '', component: Login},
-    {path: '**', component: Login}
+    {path: 'login', component: Login, canActivate: [guestGuard]},
+    {path: 'agregar', component: Agregar, canActivate: [authGuard]},
+    {path: 'carrito', component: Carrito, canActivate: [authGuard]},
+    {path: 'coches', component: Coches, canActivate:[authGuard]},
+    {path: 'editar', component: Editar, canActivate:[authGuard]},
+    {path: 'estadisticas', component: Estadisticas, canActivate:[authGuard]},
+    {path: 'mis-coches', component: MisCoches, canActivate:[authGuard]},
+    {path: 'register', component: Register, canActivate:[guestGuard]},
+    {path: '', component: Coches},
+    {path: '**', component: Coches}
 ];

@@ -1,11 +1,11 @@
 export interface Car {
-    id: string,
-    name: string,
-    price: number,
-    km: number,
-    description: string,
-    category: string,
-    image: string,
-    idUser: string,
-    state: 'Comprado' | 'Disponible'
+    _id: string;
+    name: string;
+    price: number;
+    km: number;
+    description: string;
+    category: 'Nuevo' | 'Km0' | 'Segunda Mano';
+    image: string;
+    idUser: string;
+    state: 'Comprado' | 'Disponible';
 }

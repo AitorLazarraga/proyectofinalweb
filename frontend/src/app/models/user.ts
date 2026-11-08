@@ -18,3 +18,8 @@ export interface RegisterRequest {
     latitude: number;
     longitude: number;
 }
+
+export interface LoginRequest {
+    email: string;
+    password: string;
+}
