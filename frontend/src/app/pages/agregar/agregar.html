@@ -1,1 +1,127 @@
-<p>agregar works!</p>
+<app-navbar />
+
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0">Nuevo coche</h1>
+        <a class="btn btn-outline-secondary btn-sm" routerLink="/mis-coches">
+          <i class="bi bi-arrow-left"></i> Volver
+        </a>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+
+          <form [formGroup]="form" (ngSubmit)="crear_coche()" novalidate>
+
+            <!-- Modelo -->
+            <div class="mb-3">
+              <label class="form-label" for="name">Modelo</label>
+              <input class="form-control" type="text" id="name" formControlName="name"
+                     placeholder="Ej. Seat Ibiza 1.0 TSI"
+                     [class.is-invalid]="form.get('name')?.invalid && form.get('name')?.touched">
+              @if (form.get('name')?.invalid && form.get('name')?.touched) {
+                <div class="invalid-feedback">El modelo es obligatorio</div>
+              }
+            </div>
+
+            <!-- Descripción -->
+            <div class="mb-3">
+              <label class="form-label" for="description">Descripción</label>
+              <textarea class="form-control" id="description" rows="3" formControlName="description"
+                        placeholder="Estado, equipamiento, revisiones..."
+                        [class.is-invalid]="form.get('description')?.invalid && form.get('description')?.touched"></textarea>
+              @if (form.get('description')?.invalid && form.get('description')?.touched) {
+                <div class="invalid-feedback">La descripción es obligatoria</div>
+              }
+            </div>
+
+            <!-- Precio y km -->
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label" for="price">Precio</label>
+                <div class="input-group has-validation">
+                  <input class="form-control" type="number" id="price" min="0" step="any" formControlName="price"
+                         [class.is-invalid]="form.get('price')?.invalid && form.get('price')?.touched">
+                  <span class="input-group-text">€</span>
+                  @if (form.get('price')?.invalid && form.get('price')?.touched) {
+                    <div class="invalid-feedback">Introduce un precio válido (0 o más)</div>
+                  }
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="km">Kilómetros</label>
+                <div class="input-group has-validation">
+                  <input class="form-control" type="number" id="km" min="0" step="1" formControlName="km"
+                         [class.is-invalid]="form.get('km')?.invalid && form.get('km')?.touched">
+                  <span class="input-group-text">km</span>
+                  @if (form.get('km')?.invalid && form.get('km')?.touched) {
+                    <div class="invalid-feedback">Introduce los km (0 o más)</div>
+                  }
+                </div>
+              </div>
+            </div>
+
+            <!-- Categoría -->
+            <div class="mb-3">
+              <label class="form-label" for="category">Categoría</label>
+              <select class="form-select" id="category" formControlName="category"
+                      [class.is-invalid]="form.get('category')?.invalid && form.get('category')?.touched">
+                <option value="" disabled>Elige una categoría</option>
+                <option value="Nuevo">Nuevo</option>
+                <option value="km 0">Km 0</option>
+                <option value="Segunda mano">Segunda mano</option>
+              </select>
+              @if (form.get('category')?.invalid && form.get('category')?.touched) {
+                <div class="invalid-feedback">Elige una categoría</div>
+              }
+            </div>
+
+            <!-- Imagen + vista previa -->
+            <div class="mb-4">
+              <label class="form-label" for="image">URL de la imagen</label>
+              <input #imagen class="form-control" type="url" id="image" formControlName="image"
+                     placeholder="https://..."
+                     (input)="imagenPreview.set(imagen.value)"
+                     [class.is-invalid]="form.get('image')?.invalid && form.get('image')?.touched">
+              @if (form.get('image')?.invalid && form.get('image')?.touched) {
+                <div class="invalid-feedback">Introduce una URL válida (http:// o https://)</div>
+              }
+              @if (imagenPreview()) {
+                <img [src]="imagenPreview()" alt="Vista previa" class="img-preview rounded border mt-2"
+                     (error)="imagenPorDefecto($event)">
+              }
+            </div>
+
+            <!-- Mensajes -->
+            @if (mensaje_error()) {
+              <div class="alert alert-danger alert-dismissible" role="alert">
+                {{ mensaje_error() }}
+                <button type="button" class="btn-close" (click)="mensaje_error.set('')"></button>
+              </div>
+            }
+            @if (mensaje_guay()) {
+              <div class="alert alert-success" role="alert">{{ mensaje_guay() }}</div>
+            }
+
+            <!-- Botones -->
+            <div class="d-flex justify-content-end gap-2">
+              <a class="btn btn-outline-secondary" routerLink="/mis-coches">Cancelar</a>
+              <button class="btn btn-primary" type="submit" [disabled]="enviando()">
+                @if (enviando()) {
+                  <span class="spinner-border spinner-border-sm"></span> Guardando...
+                } @else {
+                  <i class="bi bi-check-lg"></i> Crear coche
+                }
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

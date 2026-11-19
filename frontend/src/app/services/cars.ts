@@ -1,5 +1,5 @@
 import { inject, Service, signal } from '@angular/core';
-import { Car } from '../models/car';
+import { Car, CarRequest } from '../models/car';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
@@ -11,6 +11,16 @@ export class Cars {
     const get_url = `${environment.apiUrl}cars`
     return this.http.get<Car[]>(get_url);
       }
+
+  delete_car(id: string){
+    const delete_url = `${environment.apiUrl}cars/${id}`
+    return this.http.delete(delete_url);
+  }
+
+  create_car(datos: CarRequest){
+    const post_url = `${environment.apiUrl}cars`
+    return this.http.post<CarRequest>(post_url, datos);
+  }
 
 
 }

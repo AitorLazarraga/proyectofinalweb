@@ -14,3 +14,9 @@
   height: 70px;
   object-fit: cover;
 }
+
+.img-preview {
+  width: 240px;
+  height: 160px;
+  object-fit: cover;
+}

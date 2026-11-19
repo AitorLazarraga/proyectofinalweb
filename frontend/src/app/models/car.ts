@@ -9,3 +9,5 @@ export interface Car {
     idUser: string;
     state: 'Comprado' | 'Disponible';
 }
+
+export type CarRequest = Omit<Car, '_id' | 'state'>;
