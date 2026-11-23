@@ -1,1 +1,92 @@
 <app-navbar />
+
+<div class="container py-4">
+  <h1 class="h3 mb-4">Mi carrito</h1>
+
+  <!-- Mensajes: fuera del @if para que se vean aunque el carrito quede vacío tras comprar -->
+  @if (mensaje_error()) {
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      {{ mensaje_error() }}
+      <button type="button" class="btn-close" (click)="mensaje_error.set('')"></button>
+    </div>
+  }
+  @if (mensaje_guay()) {
+    <div class="alert alert-success" role="alert">{{ mensaje_guay() }}</div>
+  }
+
+  @if (carrito.items().length === 0) {
+
+    <!-- Carrito vacío -->
+    <div class="text-center py-5 text-muted">
+      <i class="bi bi-cart-x display-4"></i>
+      <p class="mt-3 mb-4">Tu carrito está vacío</p>
+      <a class="btn btn-primary" routerLink="/coches">
+        <i class="bi bi-car-front"></i> Ver coches
+      </a>
+    </div>
+
+  } @else {
+
+    <div class="row g-4">
+
+      <!-- Lista de coches -->
+      <div class="col-lg-8">
+        <ul class="list-group shadow-sm">
+          @for (coche of carrito.items(); track coche._id) {
+            <li class="list-group-item d-flex align-items-center gap-3 py-3">
+              <img [src]="coche.image" [alt]="coche.name" class="car-thumb rounded flex-shrink-0"
+                   (error)="imagenPorDefecto($event)">
+
+              <div class="flex-grow-1">
+                <div class="fw-semibold">{{ coche.name }}</div>
+                <div class="small text-muted">{{ coche.category }} · {{ coche.km | number }} km</div>
+              </div>
+
+              <div class="fw-semibold text-nowrap">{{ coche.price | currency:'EUR' }}</div>
+
+              <button type="button" class="btn btn-sm btn-outline-danger"
+                      (click)="carrito.quitar(coche)" [disabled]="enviando()"
+                      title="Quitar del carrito" aria-label="Quitar del carrito">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <!-- Resumen -->
+      <div class="col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h2 class="h5 card-title mb-3">Resumen</h2>
+
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">Coches</span>
+              <span>{{ carrito.total() }}</span>
+            </div>
+            <div class="d-flex justify-content-between border-top pt-2 mb-4">
+              <span class="fw-semibold">Total</span>
+              <span class="fw-bold fs-5">{{ precioTotal() | currency:'EUR' }}</span>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button type="button" class="btn btn-success"
+                      (click)="comprar_coches()" [disabled]="enviando()">
+                @if (enviando()) {
+                  <span class="spinner-border spinner-border-sm"></span> Comprando...
+                } @else {
+                  <i class="bi bi-bag-check"></i> Comprar
+                }
+              </button>
+              <button type="button" class="btn btn-outline-danger"
+                      (click)="vaciar_cesta()" [disabled]="enviando()">
+                <i class="bi bi-trash"></i> Vaciar cesta
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  }
+</div>

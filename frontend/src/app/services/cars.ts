@@ -31,4 +31,9 @@ export class Cars {
     const get_urlc = `${environment.apiUrl}cars/${id}`;
     return this.http.put<Car>(get_urlc, datos);
   }
+
+  buy_car(id: string){
+    const buy_urlc = `${environment.apiUrl}cars/buy/${id}`;
+    return this.http.post(buy_urlc, {});
+  }
 }
