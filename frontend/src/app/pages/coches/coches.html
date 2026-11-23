@@ -76,9 +76,23 @@
                     <td class="text-end text-nowrap">{{coche.price | currency:'EUR'}}</td>
                     <td>{{coche.category}}</td>
                     <td><span class="badge"
-                        [class.text-bg-success]="coche.state === 'Disponible'" [class.text-bg-secondary]="coche.state === 'Comprado'">{{coche.state}}</span></td>
-                    <td>@if(coche.state === 'Disponible'){
-                        <button type="button" class="btn btn-sm btn-primary" title="Añadir Carrito" aria-label="Añadir al Carrito"><i class="bi bi-cart-plus"></i></button>
+                        [class.text-bg-success]="coche.state !== 'Comprado'" [class.text-bg-secondary]="coche.state === 'Comprado'">{{coche.state}}</span></td>
+                    <td class="text-nowrap">
+                    @if (coche.idUser === id) {
+                        <span class="badge text-bg-light border">Tu coche</span>
+
+                    } @else if (coche.state !== 'Comprado') {
+                        @if (carrito.enCarrito(coche._id!)) {
+                        <button type="button" class="btn btn-sm btn-outline-success" disabled>
+                            <i class="bi bi-check-lg"></i> En el carrito
+                        </button>
+                        } @else {
+                        <button type="button" class="btn btn-sm btn-primary"
+                                (click)="agregarCarrito(coche)"
+                                title="Añadir al carrito" aria-label="Añadir al carrito">
+                            <i class="bi bi-cart-plus"></i> Añadir
+                        </button>
+                        }
                     }
                     </td>
                 </tr>

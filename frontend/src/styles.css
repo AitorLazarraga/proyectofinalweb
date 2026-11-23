@@ -20,3 +20,7 @@
   height: 160px;
   object-fit: cover;
 }
+
+.cart-badge {
+  font-size: 0.65rem;
+}

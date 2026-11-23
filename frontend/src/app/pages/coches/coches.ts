@@ -3,6 +3,8 @@ import { Navbar } from '../../components/navbar/navbar';
 import { Car } from '../../models/car';
 import { Cars } from '../../services/cars'
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import { Cart } from '../../services/cart';
+import { Auth } from '../../services/auth';
 
 @Component({
   imports: [Navbar, CurrencyPipe, DecimalPipe],
@@ -12,6 +14,8 @@ import { CurrencyPipe, DecimalPipe } from '@angular/common';
 })
 
 export class Coches implements OnInit{
+  carrito = inject(Cart);
+  authUser = inject(Auth);
   textoBusqueda = signal("");
   categoriaFiltro = signal("");
   orden = signal<"" | "asc" | "desc">("");
@@ -19,6 +23,8 @@ export class Coches implements OnInit{
   coches = signal<Car[]>([]);
   cargando = signal(true);
   mensaje_error = signal('');
+
+  id = this.authUser.get_user_id();
 
   ngOnInit(): void {
     this.carService.get_cars().subscribe({
@@ -69,5 +75,9 @@ export class Coches implements OnInit{
     img.src = '/sin_imagen.jpeg';
   }
 }
+
+  agregarCarrito(coche: Car){
+    this.carrito.agregar(coche);
+  }
 
 }

@@ -27,8 +27,17 @@
         <span class="navbar-text">
           <i class="bi bi-person-circle"></i> {{this.username}}
         </span>
-        <a class="nav-link" routerLink="/carrito" routerLinkActive="active" aria-label="Carrito">
-          <i class="bi bi-cart fs-5"></i>
+        <a class="nav-link px-2 me-2" routerLink="/carrito" routerLinkActive="active"
+          title="Carrito" aria-label="Carrito">
+          <span class="position-relative d-inline-block">
+            <i class="bi bi-cart3 fs-5"></i>
+            @if (carrito.total() > 0) {
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge">
+                {{ carrito.total() }}
+                <span class="visually-hidden">coches en el carrito</span>
+              </span>
+            }
+          </span>
         </a>
         <button class="btn btn-outline-danger btn-sm" type="button" (click)="cerrar_sesion()">
           Cerrar sesión

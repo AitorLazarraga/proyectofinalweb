@@ -7,7 +7,7 @@ export interface Car {
     category: 'Nuevo' | 'Km0' | 'Segunda Mano';
     image: string;
     idUser: string;
-    state: 'Comprado' | 'Disponible';
+    state: 'Comprado' | 'En Venta';
 }
 
 export type CarRequest = Omit<Car, '_id' | 'state'>;
