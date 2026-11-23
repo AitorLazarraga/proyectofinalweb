@@ -15,7 +15,7 @@ export const routes: Routes = [
     {path: 'agregar', component: Agregar, canActivate: [authGuard]},
     {path: 'carrito', component: Carrito, canActivate: [authGuard]},
     {path: 'coches', component: Coches, canActivate:[authGuard]},
-    {path: 'editar', component: Editar, canActivate:[authGuard]},
+    {path: 'editar/:id', component: Editar, canActivate:[authGuard]},
     {path: 'estadisticas', component: Estadisticas, canActivate:[authGuard]},
     {path: 'mis-coches', component: MisCoches, canActivate:[authGuard]},
     {path: 'register', component: Register, canActivate:[guestGuard]},

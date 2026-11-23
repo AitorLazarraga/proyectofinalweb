@@ -22,5 +22,13 @@ export class Cars {
     return this.http.post<CarRequest>(post_url, datos);
   }
 
+  get_car(id: string){
+    const get_urlc = `${environment.apiUrl}cars/${id}`;
+    return this.http.get<Car>(get_urlc);
+  }
 
+  update_car(id: string, datos:CarRequest){
+    const get_urlc = `${environment.apiUrl}cars/${id}`;
+    return this.http.put<Car>(get_urlc, datos);
+  }
 }
